@@ -7,19 +7,8 @@ import { InstaIcon, LoveIcon, SearchIcon } from '@/lib/helper'
 
 const Sidebar = () => {
     return (
-        <>
-            {/* This Nav is only for small Screen */}
-            <nav className='flex min-w-[300px] md:hidden h-16 w-full p-4 items-center justify-between'>
-                <div className='flex items-center justify-center'>
-                    <Image src='/static/assets/svg/instagram.svg' height={100} width={100} alt="image" />
-                </div>
-                <div className='flex gap-4'>
-                    <SearchIcon />
-                    <LoveIcon />
-                </div>
-            </nav>
-
-            <aside className='absolute bottom-0 left-0 min-w-[300px] w-[100%] h-[48px] flex md:flex md:flex-col gap-2 md:w-[50px] lg:w-[230px] md:h-screen border-r border-gray-400'>
+        <section className='md:h-full w-full md:w-[50px] lg:w-[230px]'>
+            <aside className='absolute bottom-0 left-0 min-w-[300px] md:min-w-[50px] lg:min-w-[230px] w-[100%] h-[48px] md:flex md:flex-col gap-2 md:w-[50px] lg:w-[230px] md:h-screen border-r border-gray-400'>
                 <div className='h-[92px] hidden md:hidden lg:flex items-center justify-center'>
                     <Image src='/static/assets/svg/instagram.svg' height={100} width={100} alt="image" />
                 </div>
@@ -30,7 +19,7 @@ const Sidebar = () => {
                     })}
                 </div>
             </aside>
-        </>
+        </section>
     )
 }
 

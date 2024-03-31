@@ -27,7 +27,7 @@ const SidebarCard = ({ title, icon, path, showSmallScreen }: ISidebarData) => {
             </main>}
             {/* For Md and Lg Screen */}
             <main>
-                <div className={`hidden md:flex items-center gap-1 w-full h-[56px] hover:bg-gray-200 cursor-pointer lg:w-200px lg:px-2 lg:hover:bg-slate-300 radius-lg`}>
+                <div className={`hidden md:flex items-center gap-1 lg:w-[200px] h-[56px] hover:bg-gray-200 cursor-pointe lg:px-2 lg:hover:bg-slate-300 radius-lg`}>
                     <div className='w-12 h-12 flex items-center justify-center lg:p-2'>
                         {IconComponent && <IconComponent height={24} width={24} />}
                     </div>
