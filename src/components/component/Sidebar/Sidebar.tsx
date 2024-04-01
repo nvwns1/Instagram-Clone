@@ -8,7 +8,7 @@ import { InstaIcon } from '@/lib/helper'
 const Sidebar = () => {
     return (
         <section className='md:h-full w-full md:w-[50px] lg:w-[230px] z-50'>
-            <aside className='fixed z-50 bottom-0 left-0 min-w-[300px] md:min-w-[50px] lg:min-w-[230px] w-[100%] h-[48px] md:flex md:flex-col gap-2 md:w-[50px] lg:w-[230px] md:h-screen md:border-r border-t border-gray-400'>
+            <aside className='fixed z-50 bottom-0 left-0 min-w-[300px] md:min-w-[50px] lg:min-w-[230px] w-[100%] h-[48px] md:flex md:flex-col gap-2 md:w-[50px] lg:w-[230px] md:h-screen md:border-r border-t md:border-t-0 border-gray-400'>
                 <div className='h-[92px] hidden md:hidden lg:flex items-center justify-center'>
                     <Image src='/static/assets/svg/instagram.svg' height={100} width={100} alt="image" />
                 </div>
