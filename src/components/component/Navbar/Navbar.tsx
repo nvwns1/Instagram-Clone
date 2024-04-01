@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const Navbar = () => {
     return (
-        <nav className='flex min-w-[300px] md:hidden h-16 w-full p-4 items-center justify-between' >
+        <nav className='flex min-w-[300px] md:hidden h-16 w-full p-4 items-center justify-between z-20 border-b' >
             <div className='flex items-center justify-center'>
                 <Image src='/static/assets/svg/instagram.svg' height={100} width={100} alt="image" />
             </div>

@@ -8,11 +8,12 @@ const UserLayout = ({
     children: React.ReactNode;
 }>) => {
     return (
-        <section className='h-screen w-screen flex flex-col md:flex-row justify-start'>
+        <section className='h-screen w-screen min-h-[700px] overflow-y-scroll flex flex-col md:flex-row justify-start'>
             <Navbar />
             <Sidebar />
-            <section className='bg-red-500 h-20 w-20'></section>
-            {children}
+            <section className='h-full overflow-y-scroll w-full z-0 lg:ml-[50px]'>
+                {children}
+            </section>
         </section>
     )
 }

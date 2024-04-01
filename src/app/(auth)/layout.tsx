@@ -14,9 +14,7 @@ const AuthLayout = ({
                     <Image src="/static/assets/login/image.png" width={400} height={400} alt="image" />
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col justify-center items-center
-        md:items-start
-         md:justify-start
-          gap-2">
+        md:items-start md:justify-start gap-2">
                     {children}
                 </div>
             </main>
