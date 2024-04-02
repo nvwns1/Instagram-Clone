@@ -4,10 +4,11 @@ import Image from 'next/image'
 import Button from '@/components/component/Button/Button'
 import HorizontalLine from '@/components/component/HorizontalLine/HorizontalLine'
 import { ICreateUserForm, initialCreateUserForm } from '@/interfaces/IAuth'
-import { registerUser } from '@/services/auth'
+import { useRegisterUser } from '@/services/auth'
 
 const SignupForm = () => {
     const [signUpState, setSignUpState] = useState(initialCreateUserForm)
+    const { loading, registerUser, error } = useRegisterUser();
     const handleSignUpStateChange = (updatedValue: Partial<ICreateUserForm>) => {
         setSignUpState((prev) => ({
             ...prev,
@@ -21,7 +22,6 @@ const SignupForm = () => {
             fullName: signUpState.fullName,
             username: signUpState.username
         })
-        console.log(response)
     }
 
     return (
@@ -48,10 +48,11 @@ const SignupForm = () => {
                     <br />
                     <br />
                     <p className='text-xs text-center'>By signing up, you agree to our Terms , Privacy Policy and Cookies Policy .</p>
-                    <Button label='Sign up' onClick={handleSubmit} />
+                    <Button label={loading ? '...' : 'Sign up'} onClick={handleSubmit} />
                 </div>
                 <HorizontalLine text='OR' />
                 <p className='text-xs'>Log in with Facebook</p>
+                <p className='text-xs text-red-500'>{error}</p>
                 <p className='text-xs'>Forgot Password?</p>
             </section>
         </main>

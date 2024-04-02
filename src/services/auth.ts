@@ -8,74 +8,54 @@ import { AuthError, ICreateUserForm } from "@/interfaces/IAuth";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   getFirestore,
   query,
   setDoc,
   where,
 } from "firebase/firestore";
+import { useState } from "react";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export const registerUser = async ({
-  email,
-  fullName,
-  username,
-  password,
-}: ICreateUserForm) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+export const useRegisterUser = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    await setDoc(doc(db, "users", userCredential.user.uid), {
-      fullName,
-      username,
-      email,
-    });
-    return { userCredential };
-  } catch (error) {
-    const errorCode = (error as AuthError).code;
-    const errorMessage = (error as AuthError).message;
-    console.error("Error registering user:", errorCode, errorMessage);
-    return { errorCode, errorMessage };
-  }
-};
+  const registerUser = async ({
+    email,
+    fullName,
+    username,
+    password,
+  }: ICreateUserForm) => {
+    try {
+      setLoading(true);
 
-export const loginUser = async (usernameOrEmail: string, password: string) => {
-  try {
-    const isEmail = usernameOrEmail.includes("@");
-    let signInCredential;
-    if (isEmail) {
-      signInCredential = signInWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
-        usernameOrEmail,
+        email,
         password
       );
-    } else {
-      const userEmail = await getUserEmailByUsername(usernameOrEmail);
-      if (userEmail) {
-        signInCredential = signInWithEmailAndPassword(
-          auth,
-          userEmail,
-          password
-        );
-      } else {
-        throw new Error("UserName not found");
-      }
+
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        fullName,
+        username,
+        email,
+      });
+
+      setLoading(false);
+      setError("");
+      console.log('Successfully created User')
+      return userCredential.user;
+    } catch (error) {
+      setLoading(false);
+      const errorMessage = (error as AuthError).message;
+      setError(errorMessage);
     }
-    const userCredential = await signInCredential;
-    return userCredential.user;
-  } catch (error) {
-    const errorCode = (error as AuthError).code;
-    const errorMessage = (error as AuthError).message;
-    console.error("Error Loggin in user:", errorCode, errorMessage);
-    return { errorMessage, errorCode };
-  }
+  };
+
+  return { loading, registerUser, error };
 };
 
 const getUserEmailByUsername = async (
@@ -89,7 +69,7 @@ const getUserEmailByUsername = async (
     if (querySnapshot.empty) {
       return null;
     }
-    
+
     const docSnapshot = querySnapshot.docs[0];
     const userData = docSnapshot.data();
 
@@ -99,4 +79,47 @@ const getUserEmailByUsername = async (
     console.error("Error fetching user by username:", error);
     return null;
   }
+};
+
+export const useLoginUser = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const loginUser = async (usernameOrEmail: string, password: string) => {
+    try {
+      setLoading(true);
+      const isEmail = usernameOrEmail.includes("@");
+      let signInCredential;
+
+      if (isEmail) {
+        signInCredential = signInWithEmailAndPassword(
+          auth,
+          usernameOrEmail,
+          password
+        );
+      } else {
+        const userEmail = await getUserEmailByUsername(usernameOrEmail);
+        if (userEmail) {
+          signInCredential = signInWithEmailAndPassword(
+            auth,
+            userEmail,
+            password
+          );
+        } else {
+          throw new Error("Firebase: Error (auth/invalid-credential).");
+        }
+      }
+      const userCredential = await signInCredential;
+      setLoading(false);
+      setError("");
+      console.log('Successfully Login User')
+      return userCredential.user;
+    } catch (error) {
+      setLoading(false);
+      const errorMessage = (error as AuthError).message;
+      setError(errorMessage);
+    }
+  };
+
+  return { loading, loginUser, error };
 };
