@@ -1,0 +1,25 @@
+import { initializeApp } from "firebase/app";
+import {
+  FIREBASECONFIG_APIKEY,
+  FIREBASECONFIG_APPID,
+  FIREBASECONFIG_AUTHDOMAIN,
+  FIREBASECONFIG_MEASUREMENTID,
+  FIREBASECONFIG_MESSAGINGSENDERID,
+  FIREBASECONFIG_PROJECTID,
+  FIREBASECONFIG_STORAGEBUCKET,
+} from "@/conf";
+const firebaseConfig = {
+  apiKey: FIREBASECONFIG_APIKEY,
+  authDomain: FIREBASECONFIG_AUTHDOMAIN,
+  projectId: FIREBASECONFIG_PROJECTID,
+  storageBucket: FIREBASECONFIG_STORAGEBUCKET,
+  messagingSenderId: FIREBASECONFIG_MESSAGINGSENDERID,
+  appId: FIREBASECONFIG_APPID,
+  measurementId: FIREBASECONFIG_MEASUREMENTID,
+};
+console.log(FIREBASECONFIG_APIKEY)
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+export default app;
