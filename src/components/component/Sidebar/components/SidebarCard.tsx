@@ -1,9 +1,10 @@
-
+"use client"
 import React from 'react'
 import Image from 'next/image'
 import { AddIcon, ExploreIcon, ReelsIcon, MessageIcon, HomeIcon, SearchIcon, LoveIcon } from '@/lib/helper';
 import { ISidebarData } from '@/interfaces/ISidebar';
 import ISvgIconProps from '@/interfaces/ISvgProps';
+import { useRouter } from 'next/navigation';
 
 type SvgIconComponent = React.ComponentType<ISvgIconProps>;
 
@@ -16,7 +17,12 @@ const iconComponents: { [key: string]: SvgIconComponent } = {
 };
 
 const SidebarCard = ({ title, icon, path, showSmallScreen }: ISidebarData) => {
+    const router = useRouter()
     const IconComponent = iconComponents[icon];
+
+    const handleClick = () => {
+        router.push(path)
+    }
 
     return (
         <>
@@ -26,7 +32,7 @@ const SidebarCard = ({ title, icon, path, showSmallScreen }: ISidebarData) => {
                 }
             </main>}
             {/* For Md and Lg Screen */}
-            <main>
+            <main onClick={handleClick}>
                 <div className={`hidden md:flex items-center gap-1 lg:w-[200px] h-[56px] hover:bg-gray-200 cursor-pointe lg:px-2 lg:hover:bg-slate-300 radius-lg`}>
                     <div className='w-12 h-12 flex items-center justify-center lg:p-2'>
                         {IconComponent && <IconComponent height={24} width={24} />}
