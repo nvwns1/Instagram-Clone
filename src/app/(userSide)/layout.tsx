@@ -21,7 +21,7 @@ const UserLayout = ({
             }
         };
         authCheck();
-    }, []);
+    }, [router]);
 
     return (
         <section className='h-screen w-screen overflow-y-scroll flex flex-col md:flex-row justify-start'>

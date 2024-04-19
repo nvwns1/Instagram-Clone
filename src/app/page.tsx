@@ -2,15 +2,20 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAuthCookie } from "@/services/localCookie";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const token = getAuthCookie()
-  if (token) {
-    router.push('/dashboard')
-  } else {
-    router.push('/login')
-  }
+  useEffect(() => {
+    const token = getAuthCookie();
+    if (typeof window !== 'undefined') {
+      if (token) {
+        router.push('/dashboard');
+      } else {
+        router.push('/login');
+      }
+    }
+  }, [router]);
   return (
     <main className="flex flex-col justify-center items-center h-screen w-full">
       <div className="w-[70%]">
