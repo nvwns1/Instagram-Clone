@@ -1,6 +1,16 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { getAuthCookie } from "@/services/localCookie";
 
 export default function Home() {
+  const router = useRouter();
+  const token = getAuthCookie()
+  if (token) {
+    router.push('/dashboard')
+  } else {
+    router.push('/login')
+  }
   return (
     <main className="flex flex-col justify-center items-center h-screen w-full">
       <div className="w-[70%]">

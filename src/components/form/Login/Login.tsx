@@ -5,8 +5,13 @@ import Button from '@/components/component/Button/Button'
 import HorizontalLine from '@/components/component/HorizontalLine/HorizontalLine'
 import { ICreateUserForm, initialLoginForm } from '@/interfaces/IAuth'
 import { useLoginUser } from '@/services/auth'
+import { useRouter } from 'next/navigation'
+import { getAuthCookie } from '@/services/localCookie'
 
 const LoginForm = () => {
+    const router = useRouter()
+    if (getAuthCookie()) router.push('/dashboard')
+
     const [loginState, setLoginState] = useState(initialLoginForm)
     const handleLoginStateChange = (updatedValue: Partial<ICreateUserForm>) => {
         setLoginState((prev) => ({
@@ -16,7 +21,11 @@ const LoginForm = () => {
     }
     const { loading, error, loginUser } = useLoginUser();
     const handleSubmit = async () => {
-        const data = await loginUser(loginState.email, loginState.password)
+        const userData = await loginUser(loginState.email, loginState.password)
+        if (userData) {
+            const a = getAuthCookie()
+            console.log(a)
+        }
     }
     return (
         <main className='w-[350px] border-2 border-var(--border-primary)  p-8 pt-16 flex flex-col items-center gap-8'>

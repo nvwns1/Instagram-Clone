@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  signInWithCustomToken,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import app from "./firebase";
@@ -15,6 +16,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useState } from "react";
+import { clearAuthCookie, setAuthCookie } from "./localCookie";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -46,7 +48,7 @@ export const useRegisterUser = () => {
 
       setLoading(false);
       setError("");
-      console.log('Successfully created User')
+      console.log("Successfully created User");
       return userCredential.user;
     } catch (error) {
       setLoading(false);
@@ -110,9 +112,10 @@ export const useLoginUser = () => {
         }
       }
       const userCredential = await signInCredential;
+      setAuthCookie(userCredential);
       setLoading(false);
       setError("");
-      console.log('Successfully Login User')
+      console.log("Successfully Login User");
       return userCredential.user;
     } catch (error) {
       setLoading(false);
@@ -122,4 +125,30 @@ export const useLoginUser = () => {
   };
 
   return { loading, loginUser, error };
+};
+
+export const handleSignOut = async () => {
+  try {
+    await auth.signOut();
+    clearAuthCookie();
+    console.log("Successfully Sign Out");
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+};
+
+export const checkAccessTokenValidity = async (): Promise<boolean> => {
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    if (!accessToken) {
+      return false;
+    }
+    const auth = getAuth();
+    const a = await signInWithCustomToken(auth, accessToken);
+    console.log('sign in with using Auth Token')
+    return true;
+  } catch (error) {
+    console.error("Error authenticating with access token:", error);
+    return false;
+  }
 };
